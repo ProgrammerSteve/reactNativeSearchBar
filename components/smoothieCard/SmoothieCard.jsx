@@ -23,7 +23,12 @@ const SmoothieCard = ({ item }) => {
       </View>
       <View style={styles.imageContainer}>
         <Image
-          style={{ resizeMode: "stretch", width: "100%", flex: 1 }}
+          style={{
+            resizeMode: "stretch",
+            width: "100%",
+            flex: 1,
+            borderRadius: 10,
+          }}
           source={require("../../assets/smoothiePic.jpg")}
         />
       </View>
@@ -35,7 +40,7 @@ export default SmoothieCard;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#f2cbcb",
     flexDirection: "row",
     alignSelf: "center",
     alignItems: "flex-start",
@@ -51,12 +56,20 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
+    paddingRight: 10,
+    fontWeight: "800",
+    color: "#403c3c",
   },
   subheader: {
     fontSize: 14,
+    paddingRight: 10,
+    fontWeight: "400",
+    color: "#574f4f",
   },
   body: {
     fontSize: 10,
+    paddingRight: 10,
+    color: "#403c3c",
   },
   textContainer: {
     width: "70%",
@@ -67,5 +80,6 @@ const styles = StyleSheet.create({
     height: 120,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 10,
   },
 });
