@@ -1,6 +1,8 @@
 import "react-native-url-polyfill/auto";
 import { StatusBar } from "expo-status-bar";
 import React, { useRef, useState, useEffect } from "react";
+import { Foundation } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import Svg, {
   Circle,
   Ellipse,
@@ -29,16 +31,34 @@ import {
   View,
   TextInput,
   Image,
+  Keyboard,
   FlatList,
 } from "react-native";
 import supabase from "./supabase/supabaseClient";
 import SmoothieList from "./components/smoothieList/SmoothieList";
-import SVGImg1 from "./assets/smoothie.svg";
 
 export default function App() {
   const [fetchError, setFetchError] = useState(null);
   const [text, setText] = useState("");
+  const [active, setActive] = useState(false);
   const [smoothies, setSmoothies] = useState([]);
+
+  const inputRef = useRef();
+  const keyboardDidHideCallback = () => {
+    setActive(false);
+    inputRef.current.blur?.();
+  };
+
+  useEffect(() => {
+    const keyboardDidHideSubscription = Keyboard.addListener(
+      "keyboardDidHide",
+      keyboardDidHideCallback
+    );
+
+    return () => {
+      keyboardDidHideSubscription?.remove();
+    };
+  }, []);
 
   // const timeout = useRef(null);
   const throttling = useRef(false);
@@ -164,11 +184,56 @@ export default function App() {
         </Svg>
       </View>
 
-      <TextInput
-        style={smoothies.length === 0 ? styles.input : styles.justify}
-        onChangeText={(inputText) => handleThrottleSearch(inputText)}
-        value={text}
-      />
+      <View
+        style={
+          smoothies.length === 0
+            ? styles.searchContainerEmpty
+            : styles.searchContainerFilled
+        }
+      >
+        <TextInput
+          style={smoothies.length === 0 ? styles.input : styles.justify}
+          onChangeText={(inputText) => handleThrottleSearch(inputText)}
+          onFocus={() => setActive(true)}
+          ref={(ref) => {
+            inputRef && (inputRef.current = ref);
+          }}
+          value={text}
+        />
+        {!active && text.length === 0 && (
+          <View style={styles.magnifyingGlassContainer}>
+            <Text style={{ color: "white" }}>Search</Text>
+            <Foundation
+              name="magnifying-glass"
+              size={16}
+              color="white"
+              style={[{ marginLeft: 5 }, { transform: [{ translateY: 2 }] }]}
+            />
+          </View>
+        )}
+        {smoothies.length > 0 && (
+          <View
+            onTouchStart={() => {
+              setText("");
+              setSmoothies([]);
+            }}
+            style={styles.clearTextIconContainer}
+          >
+            <AntDesign
+              name="close"
+              size={24}
+              color="gray"
+              style={[
+                {
+                  position: "absolute",
+                  right: 10,
+                },
+                { transform: [{ translateY: -12 }] },
+              ]}
+            />
+          </View>
+        )}
+      </View>
 
       {smoothies.length === 0 && (
         <>
@@ -201,10 +266,30 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
 
-  input: {
+  searchContainerEmpty: {
     height: 40,
     width: "90%",
-    margin: 12,
+    marginVertical: 10,
+
+    // borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  searchContainerFilled: {
+    height: 40,
+    width: "90%",
+    marginVertical: 10,
+
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 1,
+    flexDirection: "row",
+  },
+
+  input: {
+    height: 40,
+    width: "100%",
     borderWidth: 1,
     padding: 10,
     backgroundColor: "#7d3d3d",
@@ -213,14 +298,22 @@ const styles = StyleSheet.create({
   },
   justify: {
     height: 40,
-    width: "90%",
-    margin: 12,
+    width: "100%",
     borderWidth: 1,
     padding: 10,
     backgroundColor: "#7d3d3d",
     color: "white",
     borderRadius: 5,
   },
+  magnifyingGlassContainer: {
+    position: "absolute",
+    flexDirection: "row",
+  },
+
+  clearTextIconContainer: {
+    position: "relative",
+  },
+
   logo: {
     fontSize: 35,
     fontWeight: "900",
