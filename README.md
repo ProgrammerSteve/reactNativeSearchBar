@@ -3,8 +3,10 @@
 * You will need a supabase database with environment variables set up in an .env file for the app to work
 
 ### Will Look like the following:
-![alt text](https://github.com/ProgrammerSteve/reactNativeSearchBar/blob/main/assets/pic1.jpg?raw=true "pic1")
-![alt text](https://github.com/ProgrammerSteve/reactNativeSearchBar/blob/main/assets/pic2.jpg?raw=true "pic2")
+<!-- ![alt text](https://github.com/ProgrammerSteve/reactNativeSearchBar/blob/main/assets/pic1.jpg?raw=true "pic1")
+![alt text](https://github.com/ProgrammerSteve/reactNativeSearchBar/blob/main/assets/pic2.jpg?raw=true "pic2") -->
+<img src="pic1.jpg" alt="pic1" width="200" height="auto"/>
+<img src="pic2.jpg" alt="pic2" width="200" height="auto"/>
 
 ## Supabase database
 * Can be found the in supabase folder of the project
