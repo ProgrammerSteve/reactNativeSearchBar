@@ -5,14 +5,30 @@
 ### Will Look like the following:
 <!-- ![alt text](https://github.com/ProgrammerSteve/reactNativeSearchBar/blob/main/assets/pic1.jpg?raw=true "pic1")
 ![alt text](https://github.com/ProgrammerSteve/reactNativeSearchBar/blob/main/assets/pic2.jpg?raw=true "pic2") -->
-<div style="text-align: center; display: grid; grid-template-columns: 1fr 1fr;">
+<!-- <div style="text-align: center; display: grid; grid-template-columns: 1fr 1fr;">
 <div>
 <img src="./assets/pic1.jpg" alt="pic1" width="200" height="auto"/>
 </div>
 <div>
 <img src="./assets/pic2.jpg" alt="pic2" width="200" height="auto"/>
 </div>
-</div>
+</div> -->
+
+
+
+::: {.row}
+  ::: {.col-md-6}
+    <img src="./assets/pic1.jpg" alt="pic1" width="200" height="auto"/>
+  :::
+  ::: {.col-md-6}
+    <img src="./assets/pic2.jpg" alt="pic2" width="200" height="auto"/>
+  :::
+:::
+
+
+
+
+
 
 ## Supabase database
 * Can be found the in supabase folder of the project
