@@ -78,6 +78,31 @@ The timing for the throttle or debounce is found at the end of the setTimeout an
     }, 600);
 ```
 
+* To search the terms from the database, a role procedure call with a supabase database function is made
+* The custom function made is called search_smoothie
+* the parameter of the custom function is called smoothie_name
+
+```
+  const { data, error } = await supabase.rpc("search_smoothie", {
+    smoothie_name: textAdj,
+  });
+```
+* In order to use this custom function you need to create it on the SQL editor on the Supabase website
+* Go to the SQL editor and create a new query, then paste this code snippet in
+```
+create or replace function search_smoothie(smoothie_name varchar) returns setof smoothies as $$
+  select *
+  from smoothies
+  WHERE smoothie_name % ANY(STRING_TO_ARRAY(smoothies.title, ' '));
+$$ language sql;
+```
+* The code isn't in this repo, but on my supabase account
+* The code requires that the pg_trgm extension be turned on for trigram search
+* Information can be found here: 
+  * https://github.com/supabase/supabase/discussions/5435?sort=new 
+  * https://www.youtube.com/watch?v=MJZCCpCYEqk
+
+
 ###  useLog
 * It uses a useEffect to console.log the data whenever there's a change. Not needed in production.
 

@@ -24,12 +24,9 @@ export const useDebounce = (
         if (text) {
           textAdj = text.trim();
         }
-        const { data, error } = await supabase
-          .from("smoothies")
-          .select()
-          .textSearch("title", textAdj, {
-            type: "websearch",
-          });
+        const { data, error } = await supabase.rpc("search_smoothie", {
+          smoothie_name: textAdj,
+        });
 
         if (error) {
           handleFetchError("Could not fetch smoothies");
