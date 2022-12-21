@@ -5,34 +5,46 @@ import {
   Image,
   TextInput,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 // import Smoothie from "../../assets/audience.svg";
 
 const SmoothieCard = ({ item }) => {
-  const { title, id, method, rating } = item;
+  const { title, id, method, rating, navigation } = item;
   return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.header} numberOfLines={2}>{`${title}`}</Text>
-        <Text style={styles.subheader} numberOfLines={1}>{`Steps:`}</Text>
-        <Text style={styles.body} numberOfLines={3}>{`${method}`}</Text>
-        <Text
-          style={styles.subheader}
-          numberOfLines={1}
-        >{`rating: ${rating}/10`}</Text>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("Details", {
+          title,
+          id,
+          method,
+          rating,
+        });
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Text style={styles.header} numberOfLines={2}>{`${title}`}</Text>
+          <Text style={styles.subheader} numberOfLines={1}>{`Steps:`}</Text>
+          <Text style={styles.body} numberOfLines={3}>{`${method}`}</Text>
+          <Text
+            style={styles.subheader}
+            numberOfLines={1}
+          >{`rating: ${rating}/10`}</Text>
+        </View>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{
+              resizeMode: "stretch",
+              width: "100%",
+              flex: 1,
+              borderRadius: 10,
+            }}
+            source={require("../../assets/smoothiePic.jpg")}
+          />
+        </View>
       </View>
-      <View style={styles.imageContainer}>
-        <Image
-          style={{
-            resizeMode: "stretch",
-            width: "100%",
-            flex: 1,
-            borderRadius: 10,
-          }}
-          source={require("../../assets/smoothiePic.jpg")}
-        />
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

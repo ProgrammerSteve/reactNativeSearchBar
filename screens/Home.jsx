@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Button } from "react-native";
 import { useThrottle } from "../utils/useThrottle";
 import { useIsSearchBarActive } from "../utils/useIsSearchBarActive";
 import { useLog } from "../utils/useLog";
@@ -13,7 +13,7 @@ import {
   SearchBar,
 } from "../components";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [fetchError, setFetchError] = useState(null);
   const [text, setText] = useState("");
   const [smoothies, setSmoothies] = useState([]);
@@ -48,9 +48,9 @@ const Home = () => {
         handleSmoothies={handleSmoothies}
         handleSearch={handleThrottleSearch}
       />
-      {smoothies.length === 0 && <BottomTextHome />}
+      {smoothies.length === 0 && <BottomTextHome navigation={navigation} />}
       {smoothies.length > 0 && (
-        <SmoothieList smoothies={smoothies} text={text} />
+        <SmoothieList smoothies={smoothies} navigation={navigation} />
       )}
       <StatusBar style="auto" />
     </View>

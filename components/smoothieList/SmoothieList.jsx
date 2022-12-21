@@ -2,11 +2,15 @@ import SmoothieCard from "../smoothieCard/SmoothieCard";
 
 import { StyleSheet, Text, View, TextInput, FlatList } from "react-native";
 
-const SmoothieList = ({ smoothies, text }) => {
+const SmoothieList = ({ smoothies, navigation }) => {
+  smoothiesUpdated = smoothies.map((obj) => {
+    return { ...obj, navigation };
+  });
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={smoothies}
+        data={smoothiesUpdated}
         renderItem={SmoothieCard}
         keyExtractor={(item) => item.id}
       />

@@ -1,6 +1,7 @@
 # Smoothie Search React Native App
 * The purpose of the app is to use throttling when typing on the searchbar and pulling up relevant data with api calls
 * You will need a supabase database with environment variables set up in an .env file for the app to work
+* You will also need to make a supabase function to help with querying. The code snippet is found within the README file.
 
 ### Will Look like the following:
 :::
@@ -9,6 +10,16 @@
   :::
   :::
     <img src="./assets/pic2.jpg" alt="pic2" width="200" height="auto"/>
+  :::
+:::
+
+
+:::
+  :::
+    <img src="./assets/pic3.jpg" alt="pic3" width="200" height="auto"/>
+  :::
+  :::
+    <img src="./assets/pic4.jpg" alt="pic4" width="200" height="auto"/>
   :::
 :::
 
@@ -63,8 +74,7 @@ export default supabase;
 * In the app I use the throttle instead of the debounce
 * I followed the format from this link: https://www.codingdeft.com/posts/react-debounce-throttle/
 * I rearranged the code so that it works with the supabase database
-* What's left to do is use fuzzy text search instead of textSearch to improve searching
-* I am looking into supabase extensions to get this result
+* The searching is done with a custom supabase function that used the pg_trgm extension
 
 The timing for the throttle or debounce is found at the end of the setTimeout and is set to 600 miliseconds
 
@@ -107,9 +117,68 @@ $$ language sql;
 * It uses a useEffect to console.log the data whenever there's a change. Not needed in production.
 
 
+###  useGetSmoothies
+* used in the menu screen without filtering the query
 
+## React Native Navigation
+* uses "@react-navigation/native": "^6.1.1" and "@react-navigation/native-stack": "^6.9.7",
+* Info can be found: https://reactnavigation.org/
+* navigation object is sent to each page and is passed to components
+```
+const Home = ({ navigation }) => {
+  ...
+```
+* The set up is done in App.js
+ ```
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const Stack = createNativeStackNavigator();
 
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Menu"
+          component={Menu}
+          options={{
+            title: "Smoothie Menu",
+            headerStyle: {
+              backgroundColor: "#b95e5e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Details"
+          component={Details}
+          options={({ route }) => ({
+            title: route.params.title,
+            headerStyle: {
+              backgroundColor: "#b95e5e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+ ```
 
 ## Home page
 
@@ -163,4 +232,16 @@ $$ language sql;
 ```
 
 
+## Menu
 
+### SmoothieList component appears when useGetSmoothies returns data
+* gets data from useGetSmoothies and lists all the smoothies on the menu
+* The list is ordered alphabetically
+```
+      {smoothies.length > 0 && (
+        <SmoothieList smoothies={smoothies} text={text} />
+      )}
+```
+
+## Details
+* Returns the full details of the smoothie without truncating the steps

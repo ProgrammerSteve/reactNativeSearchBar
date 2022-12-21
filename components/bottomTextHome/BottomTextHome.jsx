@@ -1,10 +1,18 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const BottomTextHome = () => {
+const BottomTextHome = ({ navigation }) => {
+  const handlePress = () => {
+    navigation.navigate("Menu");
+  };
   return (
     <>
       <Text style={styles.bottomText}>{`try searching "strawberry"`}</Text>
-      <Text style={styles.bottomLink}>{`[Full Menu]`}</Text>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Menu")}
+        style={styles.linkContainer}
+      >
+        <Text>{`[Full Menu]`}</Text>
+      </TouchableOpacity>
     </>
   );
 };
@@ -23,6 +31,9 @@ const styles = StyleSheet.create({
     color: "#574f4f",
     fontWeight: "600",
     marginTop: 3,
+  },
+  linkContainer: {
+    backgroundColor: "none",
   },
 });
 
